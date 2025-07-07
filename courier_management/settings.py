@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
-    # 'courier',
+    'courier',
 ]
-# AUTH_USER_MODEL = 'courier.User'
+AUTH_USER_MODEL = 'courier.User'
 CORS_ALLOW_ALL_ORIGINS = True
 
 MIDDLEWARE = [
