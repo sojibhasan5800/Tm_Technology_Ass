@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User,Order
 from django.contrib.auth.password_validation import validate_password
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -18,3 +18,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+    
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = '__all__'
+        read_only_fields = ['user', 'status', 'assigned_delivery_man', 'payment_completed']
+
