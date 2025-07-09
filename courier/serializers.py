@@ -27,3 +27,14 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ['user', 'status', 'assigned_delivery_man', 'payment_completed']
 
+ 
+class LoginSerializer(serializers.Serializer):
+    email = serializers.CharField(required = True)
+    password = serializers.CharField(required = True)
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields=['id','email']
+
+

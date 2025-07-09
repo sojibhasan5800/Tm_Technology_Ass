@@ -1,11 +1,14 @@
 from rest_framework import generics
-from .serializers import RegisterSerializer,OrderSerializer
+from .serializers import RegisterSerializer,OrderSerializer,LoginSerializer,UserSerializer
 from .models import User,Order
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 import stripe
 from django.conf import settings
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import authenticate
+
 
 
 class RegisterView(generics.CreateAPIView):
@@ -99,4 +102,24 @@ class StripePaymentView(APIView):
             return Response({'checkout_url': session.url})
         except Exception as e:
             return Response({'error': str(e)}, status=400)
+        
+class LoginApiView(generics.GenericAPIView):
+    serializer_class = LoginSerializer
+
+    def post(self,request,*args, **kwargs):
+        email = request.data['email']
+        password = request.data['password']
+        user = authenticate(email=email, password=password)
+        if user is not None:
+            refresh = RefreshToken.for_user(user)
+            user_serializer = UserSerializer(user)
+            return Response({
+                'refresh_token':str(refresh),
+                'access_token':str(refresh.access_token),
+                'user_info': user_serializer.data
+            },status=200)
+        else:
+            return Response({
+                "wrong_submit":"invation Candential!",
+            },status=401)
 
