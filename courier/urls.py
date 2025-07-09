@@ -12,8 +12,8 @@ urlpatterns = [
     path('auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('', include(router.urls)),
-    path('auth/register/', RegisterView.as_view()),
-    path('auth/login/', TokenObtainPairView.as_view()),
+    # path('auth/register/', RegisterView.as_view()),
+    # path('auth/login/', TokenObtainPairView.as_view()),
     path('payment/checkout/', StripePaymentView.as_view()),
 ]
 
